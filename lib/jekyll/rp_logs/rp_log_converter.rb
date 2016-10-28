@@ -36,23 +36,6 @@ module Jekyll
       def initialize(config)
         # Should actually probably complain if things are undefined or missing
         config["rp_convert"] = true unless config.key? "rp_convert"
-        config.merge! self.tag_config(config)
-        config["tag_implied_by"] = Hash.new()
-        config["tag_aliased_by"] = Hash.new()
-
-        config["tag_implications"].each_with_object({}) do |(key,values),out|
-          values.each{|value|
-            config["tag_implied_by"][value] ||= []
-            config["tag_implied_by"][value] << key
-          }
-        end
-
-        config["tag_aliases"].each_with_object({}) do |(key,values),out|
-          values.each{|value|                                                                                                                                                             
-            config["tag_aliased_by"][value] ||= []                                                                                                                                        
-            config["tag_aliased_by"][value] << key                                                                                                                                        
-          }    
-        end    
 
         RpLogGenerator.extract_settings(config)
         LogLine.extract_settings(config)
@@ -75,6 +58,25 @@ module Jekyll
         # There doesn't seem to be a better way to add this to all pages than
         # by modifying the configuration file, which is added onto the `site`
         # liquid variable.
+        site.config.merge! self.tag_config(site.config)
+        site.config["tag_implied_by"] = Hash.new()
+        site.config["tag_aliased_by"] = Hash.new()
+
+        site.config["tag_implications"].each_with_object({}) do |(key,values),out|
+          values.each{|value|
+            site.config["tag_implied_by"][value] ||= []
+            site.config["tag_implied_by"][value] << key
+          }
+        end
+
+        site.config["tag_aliases"].each_with_object({}) do |(key,values),out|
+          values.each{|value|                                                                                                                                                             
+            site.config["tag_aliased_by"][value] ||= []                                                                                                                                        
+            site.config["tag_aliased_by"][value] << key                                                                                                                                        
+          }     
+        end    
+
+
         site.config["rp_logs_version"] = RpLogs::VERSION
 
         Jekyll.logger.info("RpLogGenerator#generate called")
