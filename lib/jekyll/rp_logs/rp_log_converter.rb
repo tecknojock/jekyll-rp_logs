@@ -42,6 +42,7 @@ module Jekyll
         RpLogGenerator.extract_settings(config)
         LogLine.extract_settings(config)
         Page.extract_settings(config)
+        Tag.extract_settings(config)
 
         Jekyll.logger.info "Loaded jekyll-rp_logs #{RpLogs::VERSION}"
       end
@@ -72,6 +73,8 @@ module Jekyll
         rp_pages = extract_valid_rps(site)
 
         convert_all_pages(site, main_index, arc_index, rp_pages, tag_cloud_index)
+        rp_pages.each{|page| page.tags.each{|tag| 
+        }}
       end
 
       private
@@ -122,7 +125,7 @@ module Jekyll
       ##
       # Returns a list of RpLogs::Page objects that are error-free.
       def extract_valid_rps(site)
-        site.collections[rp_key].docs.map { |p| RpLogs::Page.new(p,site.config) }
+        site.collections[rp_key].docs.map { |p| RpLogs::Page.new(p) }
           .reject do |p|
             message = p.errors?(self.class.parsers)
             skip_page(site, p, message) if message
@@ -161,7 +164,7 @@ module Jekyll
         # Add key for canon/noncanon
         main_index.data["rps"][key] << page
         # Add tag for canon/noncanon
-        page[:rp_tags] << (Tag.new(key, site.config))
+        page[:rp_tags] << (Tag.new(key))
         page[:rp_tags].sort!
 
         arc_name = page[:arc_name]
@@ -212,7 +215,7 @@ module Jekyll
 
       def convert_rp(site, page)
         msg = catch :skip_page do
-          page.convert_rp(self.class.parsers,site.config)
+          page.convert_rp(self.class.parsers)
           return true
         end
         skip_page(site, page, msg)
