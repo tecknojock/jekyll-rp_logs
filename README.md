@@ -52,12 +52,6 @@ Create a new bare-bones Jekyll site to run the RpLogs plugin from:
 
     rplogs init path/to/your/new/site
 
-Then edit the Gemfile.lock to look like
-
-    source "https://rubygems.org"
-    group :jekyll_plugins do
-      gem "jekyll-rp_logs", :git => "git://github.com/tecknojock/jekyll-rp_logs"
-    end
 
 This will create that directory (it aborts if the given directory is not empty) and set up basic scaffold for your site. After the command finishes running, you should have a structure like this:
 
@@ -192,10 +186,12 @@ tag_descriptions:
 
 After checking out the repo, run `bin/setup` to install dependencies.
 
-To install the gem onto your local machine, run `rake install`.
+Then in the lib/tasks/rp_logs.rake remove the git info from line 56 so that it reads
 
-To run the tests, run `bundle exec rspec`.
-To start [Guard](https://github.com/guard/guard-rspec#readme) and have it run the relevant tests automatically whenever you save a file, run `bundle exec guard`.
+      gem "jekyll-rp_logs", :git => "git://github.com/tecknojock/jekyll-rp_logs"
+
+
+To install the gem onto your local machine, run `rake install`.
 
 To install the gem and create a development site to test your changes, run `rake deploy`. This will do a bunch of things:
 
