@@ -258,7 +258,6 @@ module Jekyll
       # Sets Tag Size in tag cloud pate
       def tag_size!(tags)
         tag_size_array = tags.map{|tag_pair| tag_pair[1]}.sort
-        Jekyll.logger.warn tag_size_array
         tag_div = tag_size_array.length / 10
 
         # Get each dectile for tag cloud
@@ -266,7 +265,6 @@ module Jekyll
           tag_size_array[(val*tag_div).floor-1]
         }
   
-       Jekyll.logger.warn tag_groups
 
         # If one group equals another then further fine tune ranges
         begin
