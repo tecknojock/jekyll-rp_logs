@@ -263,7 +263,7 @@ module Jekyll
 
         # Get each dectile for tag cloud
         tag_groups = [1,2,3,4,5,6,7,8,9,10].map{ |val| 
-          tag_size_array[(val*tag_div).floor]
+          tag_size_array[(val*tag_div).floor-1]
         }
   
        Jekyll.logger.warn tag_groups
