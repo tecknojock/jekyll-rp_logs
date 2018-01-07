@@ -55,11 +55,9 @@ li {
 //     }
 // }
 
-/* Undo normal pre styles */
 .post-description {
-    color: #a0a090;
+    color: $dark-text-color;
 }
-
 
 #log {
     p {
@@ -74,8 +72,9 @@ li {
     .ooc {
         color: $dark-text-color;
         & a { color: darken($dark-text-color, 20%); }
-
         vertical-align: top;
+        /* Default is hidden, so don't rely on JS to hide it. */
+        display: none;
         padding-top: 5px;
         padding-bottom: 5px;
 
