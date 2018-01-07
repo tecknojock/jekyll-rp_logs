@@ -165,7 +165,7 @@ module Jekyll
       # the middle of words. Their spaces will be preserved at the end of lines.
       private def space_between_lines
         if options[:splits_by_character] &&
-           options[:splits_by_character].include?(@sender)
+           (options[:splits_by_character].include?(@sender) || options[:splits_by_character].include?("-*Global*-"))
           ""
         else
           " "
@@ -195,7 +195,7 @@ module Jekyll
       # Maybe a job for !NOTMERGE flag, or similar
       protected def possible_split_to_normal_text?
         base_type == :ooc && @options[:merge_text_into_rp] &&
-          @options[:merge_text_into_rp].include?(@sender)
+          (@options[:merge_text_into_rp].include?(@sender) || options[:merge_text_into_rp].include?("-*Global*-"))
       end
 
       def inspect
