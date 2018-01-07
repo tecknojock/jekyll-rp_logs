@@ -2,7 +2,6 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-
 ## [0.7.0] - 2016-11-04
 ## Notes
 - Please update your theme with rplogs update for this update to work.
@@ -177,4 +176,3 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [#54x]: https://github.com/xiagu/jekyll-rp_logs/issues/54
 [#61x]: https://github.com/xiagu/jekyll-rp_logs/issues/61
 [#20]: https://github.com/tecknojock/jekyll-rp_logs/issues/20
-
