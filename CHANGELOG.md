@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.7.1] - 2018-01-07
+## Notes
+- Merged upstream refactoring in.
+- Added the ability to add parser specific options in the parser. See the parser examples for details.
+
 ## [0.7.0] - 2016-11-04
 ## Notes
 - Please update your theme with rplogs update for this update to work.

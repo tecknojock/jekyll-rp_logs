@@ -109,7 +109,7 @@ These are all optional (they have default values, configurable in `_config.yml`)
 * `time_line` - Any valid YAML date, such as `YYYY-MM-DD` - Used to change the order an RP in an Arc is stored in while keeping the displayed `start_date` correct. Useful if story RPs were done out of order.
 * `description` - A short description shown on the RP's page and while hovering on links to it.
 
-There are also some more options you can toggle. Some are needed for giving the parser more information about oddities in posts, so that it can merge split posts correctly.
+There are also some more options you can toggle. Some are needed for giving the parser more information about oddities in posts, so that it can merge split posts correctly. These can also be specified in the parser. Use -*Global*- in order to apply it to all lines in the parser.
 
 * `infer_char_tags` - true/false - If false, don't infer the characters in the RP by the nicks who do emotes.
 * `merge_text_into_rp` - YAML list - A list of nicks whose clients split actions into normal text, like [IRCCloud did for a while](https://twitter.com/XiaguZ/status/590773722593763328).
@@ -188,7 +188,7 @@ After checking out the repo, run `bin/setup` to install dependencies.
 
 Then in the lib/tasks/rp_logs.rake remove the git info from line 56 so that it reads
 
-      gem "jekyll-rp_logs", :git => "git://github.com/tecknojock/jekyll-rp_logs"
+      gem "jekyll-rp_logs"
 
 
 To install the gem onto your local machine, run `rake install`.
