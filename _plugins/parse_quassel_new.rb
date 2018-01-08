@@ -20,11 +20,11 @@ module Jekyll
       TEXT  = /^#{FLAGS}#{DATE_REGEXP} <#{MODE}#{NICK}[^>]*>\s*#{MSG}$/
 
       # Option Overwites. Careful, can overwite local file specific options as well. Uncomment what you need.
-      # strict_ooc = True
+      # Strict_ooc = True
 
       # Appends to the list. Use "-*Global*-" to indicate all.
-      merge_test_into_rp = [] 
-      splilts_by_character = []
+      Merge_test_into_rp = [] 
+      Splilts_by_character = []
       
       
       def self.parse_line(line, options = {})
@@ -42,12 +42,12 @@ module Jekyll
         flags = $LAST_MATCH_INFO[:flags]
         sendername = $LAST_MATCH_INFO[:nick].tr(" ", "-").gsub(BAD_STUFF, "")
 
-        locoptions = {options[:strict_ooc].clone, options[:merge_text_into_rp].clone,options[:splilts_by_character].clone}
-        if strict_ooc
-          locoptions[:strict_ooc] =  strict_ooc
+        locoptions = {options[:strict_ooc].clone , options[:merge_text_into_rp].clone , options[:splilts_by_character].clone }
+        if Strict_ooc
+          locoptions[:strict_ooc] =  Strict_ooc
         end
-        locoptions[:merge_text_into_rp] += merge_text_into_rp
-        locoptions[:splilts_by_character] += splilts_by_character
+        locoptions[:merge_text_into_rp] += Merge_text_into_rp
+        locoptions[:splilts_by_character] += Splilts_by_character
 
         LogLine.new(
           date,
