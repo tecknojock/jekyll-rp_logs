@@ -74,6 +74,8 @@ defaults:
       infer_char_tags: true
       layout: rp
       merge_text_into_rp: []
+      splits_by_character: []
+      strict_ooc: False
       permalink: /:path/
       rp_tag_implications: true
       rp_tags: ""

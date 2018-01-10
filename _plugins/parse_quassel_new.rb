@@ -42,7 +42,7 @@ module Jekyll
         flags = $LAST_MATCH_INFO[:flags]
         sendername = $LAST_MATCH_INFO[:nick].tr(" ", "-").gsub(BAD_STUFF, "")
 
-        locoptions = {options[:strict_ooc].clone , options[:merge_text_into_rp].clone , options[:splilts_by_character].clone }
+        locoptions = {options[:strict_ooc] , options[:merge_text_into_rp].clone , options[:splilts_by_character].clone }
         if Strict_ooc
           locoptions[:strict_ooc] =  Strict_ooc
         end
