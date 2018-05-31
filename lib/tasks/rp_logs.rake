@@ -68,6 +68,7 @@ namespace :rp_logs do
     cp_r Dir["#{gem_root}/.themes/default/source/*"], "./"
     copy_unless_exist("_config.yml.default", "_config.yml")
     copy_unless_exist("_tags.yml.default", "_tags.yml")
+    copy_unless_exist("_canon.yml.default", "_canon.yml")
     touch "_sass/_custom-vars.scss"
     touch "_sass/_custom-rules.scss"
   end

@@ -26,7 +26,7 @@ module Jekyll
 
       TYPES = [:meta, :character, :general].freeze
       CHAR_FLAG = /^(char:|char-)(?<char_name>.*)/
-      META_TAGS = /(safe|questionable|explicit|canon|noncanon|complete|incomplete)/
+      META_TAGS = /(safe|questionable|explicit|complete|incomplete)/
 
       # CSS classes to apply to this tag, when displayed
       TYPE_CLASSES = {

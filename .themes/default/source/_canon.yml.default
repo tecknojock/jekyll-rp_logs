@@ -1,0 +1,9 @@
+
+# This is where you define your different Canons that your RPs take place in.
+# This will group your RPs by thier Canon in canon view. Descriptions are added after the colon.
+# Canons will be ordered as you list them.
+canon_list:
+  # These are just examples, feel free to delete them!
+  Canon: "Canon RPs with my chars"
+  Noncanon: "Noncanon RPs with my chars"
+  One-Shot: "Single instance RPs with my chars"
