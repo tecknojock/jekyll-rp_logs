@@ -33,6 +33,7 @@ The result of building all the test files can be seen here: http://andrew.rs/pro
 * RP Descriptions
 * Arc Descriptions
 * Tag Cloud
+* Support for multiple canons
 
 ## Quick Start
 
@@ -101,7 +102,7 @@ These are all optional (they have default values, configurable in `_config.yml`)
 * `description` - Description of the RP. This will show up in the link hover text on index pages, and underneath the title on rp pages.
 * `arc_name` - YAML list - names of story arcs that the RP belongs to
 * `arc_description` - Description of the arc the rp is in. This will show up on the arcs page. Only include in any one RP in an arc.
-* `canon` - true/false - Whether the RP is considered canonical (whatever that means to you). Sorts RPs into one of two categories in the index.
+* `canon` - Specify what particular canon this RP belongs to if any. This is required. Sorts RPs into categories in the main index.
 * `complete` - true/false - Whether the RP is finished, or is still incomplete. Incomplete RPs are flagged as such on the index.
 * `format` - YAML list - What format(s) the logs are in, e.g., `[weechat]`
 * `rp_tags` - comma separated list - A list of tags that describe the contents, such as characters involved or events that occur.
@@ -181,6 +182,9 @@ tag_descriptions:
   char:Alice: "Have some words"
   test: "More words"
 ```
+### Canons
+Canons must be specified in the ```_canons.yaml``` file. Type your canon followed by a description. 
+
 
 ## Development
 
