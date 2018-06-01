@@ -1,23 +1,15 @@
 ---
 layout: page
-title: All RPs
+title: Canonized RPs
 rp_index: true
 ---
 
-{% if page['rps']['canon'].size > 0 %}
-<h2 class="arc-title"><a name="canon" href="#canon">Canon</a></h2>
+{% for canon in page['canons'] %}
+<h2 class="arc-title"><a name="{{ canon }}" href="#{{ canon }}">{{ canon }}</a></h2>
 <ul class="rp-list">
-{% for rp in page['rps']['canon'] %}
+{% for rp in page['rps'][canon] %}
   {% include rp.html rp=rp %}
 {% endfor %}
 </ul>
-{% endif %}
+{% endfor %}
 
-{% if page['rps']['noncanon'].size > 0 %}
-<h2 class="arc-title"><a name="non-canon" href="#non-canon">Non-Canon</a></h2>
-<ul class="rp-list">
-  {% for rp in page['rps']['noncanon'] %}
-    {% include rp.html rp=rp %}
-  {% endfor %}
-</ul>
-{% endif %}

@@ -69,7 +69,7 @@ defaults:
       path: ""
       type: rps # Needs to have the same name as the collection above
     values:
-      canon: false
+      canon: noncanon
       complete: false
       format: [weechat]
       infer_char_tags: true

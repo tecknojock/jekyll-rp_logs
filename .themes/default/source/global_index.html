@@ -1,23 +1,39 @@
 ---
 layout: page
 title: All RPs
-rp_index: true
+global_index: true
 ---
 
-{% if page['rps']['canon'].size > 0 %}
-<h2 class="arc-title"><a name="canon" href="#canon">Canon</a></h2>
-<ul class="rp-list">
-{% for rp in page['rps']['canon'] %}
-  {% include rp.html rp=rp %}
-{% endfor %}
-</ul>
-{% endif %}
+<!-- _includes/base.html -->
+{% assign base = '' %}
+{% assign depth = page.url | split: '/' | size %}
+{% if    depth <= 1 %}{% assign base = '.' %}
+{% elsif depth == 2 %}{% assign base = '..' %}
+{% elsif depth == 3 %}{% assign base = '../..' %}
+{% elsif depth == 4 %}{% assign base = '../../..' %}{% endif %}
 
-{% if page['rps']['noncanon'].size > 0 %}
-<h2 class="arc-title"><a name="non-canon" href="#non-canon">Non-Canon</a></h2>
-<ul class="rp-list">
-  {% for rp in page['rps']['noncanon'] %}
-    {% include rp.html rp=rp %}
+{% for rp in page['rps'] %}
+<li>
+  <div class="rp-entry-container">
+    <div class="rp-entry">
+      <a title='{{ rp["description"] }}' href="{{ base }}{{ rp.url }}">
+        <h4 class="rp-title">{{ rp.title }}</h4>
+      </a>
+    </div>
+    <div class="rp-metadata-container">
+      {% if rp.complete %}
+        <span class="rp-completion rp-complete fa fa-check" title="Complete"></span>
+      {% else %}
+        <span class="rp-completion rp-incomplete fa fa-times" title="Incomplete"></span>
+      {% endif %}
+      <span class="rp-start-date">{{ rp.start_date | date: "%F" }} &mdash;</span>
+      <span class="rp-end-date">{{ rp.end_date | date: "%F" }}</span>
+    </div>
+    <span class="rp-canon"><a href="./index.html#{{rp.canon}}">{{ rp.canon }}</a></span>
+  </div>
+  {% for t in rp.rp_tags %}
+    <a href="{{ base }}{{ site.rp_tag_dir }}/{{ t.dir }}" class="rp-tag {{t.classes}}">{{ t.name }}</a>
   {% endfor %}
-</ul>
-{% endif %}
+</li>
+  
+{% endfor %}
