@@ -1,24 +1,23 @@
 module Jekyll
   module RpLogs
 
-    class QuasselnewParser < RpLogs::Parser
+    class Flist2Parser < RpLogs::Parser
 
-      # Add this class to the parsing dictionary
-      FORMAT_STR = 'quassel-new'
+      # Add this class tothe parsing dictionary
+      FORMAT_STR = 'flist2'
       RpLogGenerator.add self
 
-      MODE = /([+%@&~!]?)/
-      NICK = /(?<nick>[\w\-\\\[\]\{\}\^\`\|]+)/
+      NICK = /(?<nick>[^:]{2,20})/
       DATE_REGEXP = /(?<timestamp>\[\d\d:\d\d:\d\d\] \[\d\d\.\d\d\.\d\d\])/
       TIMESTAMP_FORMAT = '[%H:%M:%S] [%d.%m.%y]'
       MSG = /(?<msg>[^\x00]*)/
       BAD_STUFF = /[^a-zA-Z\-\_ \s]/
       SPLITTER = /\n(?=#{FLAGS}#{DATE_REGEXP})/
-
-      JUNK =  /#{DATE_REGEXP}\t<?-?->?\t.*$/ 
-      EMOTE = /^#{FLAGS}#{DATE_REGEXP} -\*- #{NICK}\s*#{MSG}$/
-      TEXT  = /^#{FLAGS}#{DATE_REGEXP} <#{MODE}#{NICK}[^>]*>\s*#{MSG}$/
-
+      
+      
+      EMOTE = /^#{FLAGS}#{DATE_REGEXP} -\*- #{NICK}: \/me\s*#{MSG}$/m
+      TEXT  = /^#{FLAGS}#{DATE_REGEXP} -\*- #{NICK}:\s*#{MSG}$/m
+      
       
       
       def self.parse_line(line, options = {})
@@ -42,7 +41,8 @@ module Jekyll
         contents = $LAST_MATCH_INFO[:msg]
         flags = $LAST_MATCH_INFO[:flags]
         sendername = $LAST_MATCH_INFO[:nick].gsub(BAD_STUFF, "")
-        locoptions = {:strict_ooc => options[:strict_ooc] , :merge_text_into_rp => options[:merge_text_into_rp].clone , :splits_by_character => options[:splits_by_character].clone }
+ 
+       locoptions = {:strict_ooc => options[:strict_ooc] , :merge_text_into_rp => options[:merge_text_into_rp].clone , :splits_by_character => options[:splits_by_character].clone }
         if strict_ooc
           locoptions[:strict_ooc] =  strict_ooc
         end
@@ -58,6 +58,6 @@ module Jekyll
           type: type
         ) 
       end 
-    end  
-  end
+    end   
+  end     
 end
