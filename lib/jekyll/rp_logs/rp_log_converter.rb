@@ -4,6 +4,7 @@ require_relative "rp_page"
 require_relative "rp_arcs"
 require_relative "rp_tags"
 require "yaml"
+require "titleize"
 
 module Jekyll
   module RpLogs
@@ -38,6 +39,7 @@ module Jekyll
         config["rp_convert"] = true unless config.key? "rp_convert"
         
         tag_info(config)
+        canon_config(config)
 
         RpLogGenerator.extract_settings(config)
         LogLine.extract_settings(config)
@@ -55,6 +57,14 @@ module Jekyll
         end
       end
 
+      def canon_config(config)
+        if config['source'] && config["canon_file"]
+           if File.exists?(File.join(config['source'],config["canon_file"]))
+              @canon_config = YAML.load_file(File.join(config['source'],config["canon_file"]))
+           end 
+        end
+      end
+
       def generate(site)
         return unless site.config["rp_convert"]
         tag_info(site.config)
@@ -65,13 +75,13 @@ module Jekyll
         site.config["rp_logs_version"] = RpLogs::VERSION
         Jekyll.logger.info("RpLogGenerator#generate called")
 
-        main_index, arc_index, tag_cloud_index  = extract_indexes(site)
+        main_index, global_index, arc_index, tag_cloud_index = extract_indexes(site)
 
         disable_liquid_rendering(site)
         # Pull out all the pages that are error-free
         rp_pages = extract_valid_rps(site)
 
-        convert_all_pages(site, main_index, arc_index, rp_pages, tag_cloud_index)
+        convert_all_pages(site, main_index, arc_index, rp_pages, tag_cloud_index, global_index)
         rp_pages.each{|page| page.tags.each{|tag| 
         }}
       end
@@ -90,18 +100,26 @@ module Jekyll
         # Directory of RPs
         main_index = find_index(site, "rp_index")
         Jekyll.logger.abort_with "Main index page missing" if main_index.nil?
-        main_index.data["rps"] = { "canon" => [], "noncanon" => [] }
+        main_index.data["rps"] = Hash[@canon_config['canon_list'].keys.map {|x| [x.titleize, []]}]
+        main_index.data["canons"] = main_index.data["rps"].keys
+        main_index.data["canon_desc"] = main_index.data["canons"].zip(@canon_config['canon_list'].values).to_h
 
         # Arc-style directory
         arc_index = find_index(site, "rp_arcs")
         Jekyll.logger.abort_with "Arc index page missing" if arc_index.nil?
+
+
+        # Global directory
+        global_index = find_index(site, "global_index")
+        Jekyll.logger.abort_with "global index page missing" if global_index.nil?
+        global_index.data["rps"] = []
 
         # Tag Cloud directory
         tag_cloud_index = find_index(site, "tag_cloud")
         Jekyll.logger.abort_with "Tag cloud page missing" if tag_cloud_index.nil?
         tag_cloud_index.data["tags"] = { "character" => [], "meta" => [], "general" => [] }
 
-        site.data["menu_pages"] = [main_index, arc_index, tag_cloud_index]
+       site.data["menu_pages"] = [main_index, global_index, arc_index, tag_cloud_index]
       end
 
       def find_index(site, key)
@@ -132,22 +150,22 @@ module Jekyll
           end
       end
 
-      def convert_all_pages(site, main_index, arc_index, rp_pages, tag_cloud_index)
+      def convert_all_pages(site, main_index, arc_index, rp_pages, tag_cloud_index, global_index)
         arcs = Hash.new { |hash, key| hash[key] = Arc.new(key) }
         no_arc_rps = []
 
         # Convert all of the posts to be pretty
         # Also build up our hash of tags
         rp_pages.each do |page|
-          convert_page(page, site, main_index, arcs, no_arc_rps)
+          convert_page(page, site, main_index, arcs, no_arc_rps, global_index)
         end
 
         Jekyll.logger.info(
           "#{site.collections[rp_key].docs.size} RPs converted.")
 
         sort_arcs(arcs, no_arc_rps, arc_index)
-        sort_chronologically! main_index.data["rps"]["canon"]
-        sort_chronologically! main_index.data["rps"]["noncanon"]
+        main_index.data["rps"].each_key {|k| sort_chronologically! main_index.data["rps"][k]}
+        sort_chronologically! global_index.data["rps"]
 
 
         convert_tag_cloud( rp_pages, tag_cloud_index)
@@ -155,16 +173,16 @@ module Jekyll
 
       end
 
-      def convert_page(page, site, main_index, arcs, no_arc_rps)
+      def convert_page(page, site, main_index, arcs, no_arc_rps, global_index)
         # Skip if something goes wrong
         return unless convert_rp(site, page)
-
-        key = page.canon
-        # Add key for canon/noncanon
+        
+        key = page.canon.titleize
+        # Add key for canons
         main_index.data["rps"][key] << page
-        # Add tag for canon/noncanon
-        page[:rp_tags] << (Tag.new(key))
         page[:rp_tags].sort!
+        
+        global_index.data["rps"] << page
 
         arc_name = page[:arc_name]
         if arc_name && !arc_name.empty?

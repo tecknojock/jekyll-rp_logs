@@ -1,0 +1,39 @@
+---
+layout: page
+title: All RPs
+global_index: true
+---
+
+<!-- _includes/base.html -->
+{% assign base = '' %}
+{% assign depth = page.url | split: '/' | size %}
+{% if    depth <= 1 %}{% assign base = '.' %}
+{% elsif depth == 2 %}{% assign base = '..' %}
+{% elsif depth == 3 %}{% assign base = '../..' %}
+{% elsif depth == 4 %}{% assign base = '../../..' %}{% endif %}
+
+{% for rp in page['rps'] %}
+<li>
+  <div class="rp-entry-container">
+    <div class="rp-entry">
+      <a title='{{ rp["description"] }}' href="{{ base }}{{ rp.url }}">
+        <h4 class="rp-title">{{ rp.title }}</h4>
+      </a>
+    </div>
+    <div class="rp-metadata-container">
+      {% if rp.complete %}
+        <span class="rp-completion rp-complete fa fa-check" title="Complete"></span>
+      {% else %}
+        <span class="rp-completion rp-incomplete fa fa-times" title="Incomplete"></span>
+      {% endif %}
+      <span class="rp-start-date">{{ rp.start_date | date: "%F" }} &mdash;</span>
+      <span class="rp-end-date">{{ rp.end_date | date: "%F" }}</span>
+    </div>
+    <span class="rp-canon"><a href="{{base}}/index.html#{{rp.canon}}">{{ rp.canon }}</a></span>
+  </div>
+  {% for t in rp.rp_tags %}
+    <a href="{{ base }}{{ site.rp_tag_dir }}/{{ t.dir }}" class="rp-tag {{t.classes}}">{{ t.name }}</a>
+  {% endfor %}
+</li>
+  
+{% endfor %}

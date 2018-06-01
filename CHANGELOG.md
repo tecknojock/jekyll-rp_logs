@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.0] - 2018-05-31
+## Notes
+- Revamped canononcity so that it's no longer a true/false but rather multiple canons. ([#15])
+  **This is a breaking change. You may need to regex your existing RPs to actual canons.**
+
 ## [0.7.1] - 2018-01-07
 ## Notes
 - Merged upstream refactoring in.
@@ -181,3 +186,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [#54x]: https://github.com/xiagu/jekyll-rp_logs/issues/54
 [#61x]: https://github.com/xiagu/jekyll-rp_logs/issues/61
 [#20]: https://github.com/tecknojock/jekyll-rp_logs/issues/20
+[#15]: https://github.com/tecknojock/jekyll-rp_logs/issues/15

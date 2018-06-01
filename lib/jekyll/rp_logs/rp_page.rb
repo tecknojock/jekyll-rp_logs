@@ -91,7 +91,7 @@ module Jekyll
       end
 
       def canon
-        self[:canon] ? "canon" : "noncanon"
+        self[:canon]
       end
 
       def description

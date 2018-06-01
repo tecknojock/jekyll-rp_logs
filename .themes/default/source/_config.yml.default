@@ -31,6 +31,7 @@ rp_tag_index_layout: tag_index
 rp_tag_title_prefix: "RPs tagged "
 
 tag_file: _tags.yml
+canon_file: _canon.yml
 
 # Applies a universal formatting to character tags. Options are as follows:
 #   none - leaves name capitalizations as they are:eg 'drew mcArthur'
@@ -68,7 +69,7 @@ defaults:
       path: ""
       type: rps # Needs to have the same name as the collection above
     values:
-      canon: false
+      canon: noncanon
       complete: false
       format: [weechat]
       infer_char_tags: true

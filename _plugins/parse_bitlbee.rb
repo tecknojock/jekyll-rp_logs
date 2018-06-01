@@ -1,10 +1,10 @@
 module Jekyll
   module RpLogs
 
-    class QuasselnewParser < RpLogs::Parser
+    class BitlbeeParser < RpLogs::Parser
 
       # Add this class to the parsing dictionary
-      FORMAT_STR = 'quassel-new'
+      FORMAT_STR = 'bitlbee'
       RpLogGenerator.add self
 
       MODE = /([+%@&~!]?)/
@@ -26,7 +26,7 @@ module Jekyll
         strict_ooc = false 
 
         # Appends to the list. Use "-*Global*-" to indicate all.
-        merge_text_into_rp = [] 
+        merge_text_into_rp = ["-*Global*-"] 
         splits_by_character = []
 
         case line
@@ -42,6 +42,7 @@ module Jekyll
         contents = $LAST_MATCH_INFO[:msg]
         flags = $LAST_MATCH_INFO[:flags]
         sendername = $LAST_MATCH_INFO[:nick].gsub(BAD_STUFF, "")
+
         locoptions = {:strict_ooc => options[:strict_ooc] , :merge_text_into_rp => options[:merge_text_into_rp].clone , :splits_by_character => options[:splits_by_character].clone }
         if strict_ooc
           locoptions[:strict_ooc] =  strict_ooc

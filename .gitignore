@@ -10,6 +10,7 @@
 /spec/reports/
 /tmp/
 /lib/tasks/
+/lib/tasks/rp_logs.rake
 
 ## Sublime
 jekyll-rp_logs.sublime-project

@@ -1,29 +1,29 @@
 module Jekyll
   module RpLogs
 
-    class QuasselnewParser < RpLogs::Parser
+    class DiscordParser < RpLogs::Parser
 
       # Add this class to the parsing dictionary
-      FORMAT_STR = 'quassel-new'
+      FORMAT_STR = 'discord'
       RpLogGenerator.add self
 
       MODE = /([+%@&~!]?)/
-      NICK = /(?<nick>[\w\-\\\[\]\{\}\^\`\|]+)/
-      DATE_REGEXP = /(?<timestamp>\[\d\d:\d\d:\d\d\] \[\d\d\.\d\d\.\d\d\])/
-      TIMESTAMP_FORMAT = '[%H:%M:%S] [%d.%m.%y]'
+      NICK = /(?<nick>[^:]+):/
+      DATE_REGEXP = /(?<timestamp>\[\d?\d:\d\d [AP]M\])/
+      TIMESTAMP_FORMAT = '[%l:%M %p]'
       MSG = /(?<msg>[^\x00]*)/
       BAD_STUFF = /[^a-zA-Z\-\_ \s]/
       SPLITTER = /\n(?=#{FLAGS}#{DATE_REGEXP})/
 
       JUNK =  /#{DATE_REGEXP}\t<?-?->?\t.*$/ 
-      EMOTE = /^#{FLAGS}#{DATE_REGEXP} -\*- #{NICK}\s*#{MSG}$/
+      EMOTE = /^#{FLAGS}#{DATE_REGEXP} #{NICK}\s*#{MSG}$/
       TEXT  = /^#{FLAGS}#{DATE_REGEXP} <#{MODE}#{NICK}[^>]*>\s*#{MSG}$/
 
       
       
       def self.parse_line(line, options = {})
         # Careful, true will overwite local file specific options as well.
-        strict_ooc = false 
+        strict_ooc = true
 
         # Appends to the list. Use "-*Global*-" to indicate all.
         merge_text_into_rp = [] 
@@ -42,6 +42,7 @@ module Jekyll
         contents = $LAST_MATCH_INFO[:msg]
         flags = $LAST_MATCH_INFO[:flags]
         sendername = $LAST_MATCH_INFO[:nick].gsub(BAD_STUFF, "")
+
         locoptions = {:strict_ooc => options[:strict_ooc] , :merge_text_into_rp => options[:merge_text_into_rp].clone , :splits_by_character => options[:splits_by_character].clone }
         if strict_ooc
           locoptions[:strict_ooc] =  strict_ooc
