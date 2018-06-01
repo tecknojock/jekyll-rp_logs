@@ -6,6 +6,7 @@ rp_index: true
 
 {% for canon in page['canons'] %}
 <h2 class="arc-title"><a name="{{ canon }}" href="#{{ canon }}">{{ canon }}</a></h2>
+<br /><span class="arc-desc">{{ page['canon_desc'][canon] }}</span>
 <ul class="rp-list">
 {% for rp in page['rps'][canon] %}
   {% include rp.html rp=rp %}

@@ -101,7 +101,8 @@ module Jekyll
         main_index = find_index(site, "rp_index")
         Jekyll.logger.abort_with "Main index page missing" if main_index.nil?
         main_index.data["rps"] = Hash[@canon_config['canon_list'].keys.map {|x| [x.titleize, []]}]
-        main_index.data["canons"] = @canon_config['canon_list'].keys
+        main_index.data["canons"] = main_index.data["rps"].keys
+        main_index.data["canon_desc"] = main_index.data["canons"].zip(@canon_config['canon_list'].values).to_h
 
         # Arc-style directory
         arc_index = find_index(site, "rp_arcs")
