@@ -276,6 +276,15 @@ module Jekyll
         self[:rp_tags].each{|tag|
           self[:stats].update_stats! tag.stats if tag.tag_type == "character"
         }
+        self[:stats]["stats"]["aveline"] = self[:stats]["stats"]["wordcount"].to_f / self[:stats]["stats"]["lines"]
+        self[:stats]["stats"]["aveword"] = self[:stats]["stats"]["characters"].to_f / self[:stats]["stats"]["wordcount"] - 1
+        for t in self[:rp_tags]
+          if t['stats']['lines'] > 0
+            t["stats"]["aveline"] = t["stats"]["wordcount"].to_f / t["stats"]["lines"]
+            t["stats"]["aveword"] = t["stats"]["characters"].to_f / t["stats"]["wordcount"] - 1
+          end
+        end
+
       end
     end
   end
