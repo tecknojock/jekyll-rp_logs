@@ -70,10 +70,14 @@ module Jekyll
           site.pages << TagIndex.new(site, site.source, File.join(dir, tag.dir), tag, pages,tags)
         end
         for page in site.pages
-          if page['stats']['lines'] > 0
-            page["stats"]["aveline"] = page["stats"]["wordcount"].to_f / page["stats"]["lines"]
-            page["stats"]["aveword"] = page["stats"]["characters"].to_f / page["stats"]["wordcount"] - 1
+          page.try(:stats) rescue bad = nil
+          unless bad == nil
+            if page.stats['lines'] > 0
+              page.stats["aveline"] = page.stats["wordcount"].to_f / page.stats["lines"]
+              page.stats["aveword"] = page.stats["characters"].to_f / page.stats["wordcount"] - 1
+            end
           end
+        end
         Jekyll.logger.info "#{tags.size} tag pages generated."
       end
 

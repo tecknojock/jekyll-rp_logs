@@ -179,9 +179,14 @@ module Jekyll
         
         key = page.canon.titleize
         # Add key for canons
-        main_index.data["rps"][key] << page
-        page[:rp_tags].sort!
-        
+        if main_index.data["rps"].dig(key)
+          main_index.data["rps"][key] << page
+          page[:rp_tags].sort!
+        else
+          skip_page(site, page,
+                    "Error parsing #{page.basename}: #{key} is not a valid canon. Update RP headers or add it to the canons config.")
+          # Raise exception, so Jekyll prints backtrace if run with --trace
+        end
         global_index.data["rps"] << page
 
         arc_name = page[:arc_name]
