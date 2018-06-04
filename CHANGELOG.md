@@ -2,8 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.8.0] - 2018-05-31
+## [0.8.1] - 2018-06-04
 ## Notes
+- Fixed it so that Canons not in the list trigger an error. ([#38])
+- Fixed the stats page such that caluclations are done in the main body. Also fixed the rounding errors. ([33])
+
+## [0.8.0] - 2018-05-31
+## Added
 - Revamped canononcity so that it's no longer a true/false but rather multiple canons. ([#15])
   **This is a breaking change. You may need to regex your existing RPs to actual canons.**
 
@@ -187,3 +192,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [#61x]: https://github.com/xiagu/jekyll-rp_logs/issues/61
 [#20]: https://github.com/tecknojock/jekyll-rp_logs/issues/20
 [#15]: https://github.com/tecknojock/jekyll-rp_logs/issues/15
+[#33]: https://github.com/tecknojock/jekyll-rp_logs/issues/33
+[#38]: https://github.com/tecknojock/jekyll-rp_logs/issues/38

@@ -29,7 +29,7 @@ global_index: true
       <span class="rp-start-date">{{ rp.start_date | date: "%F" }} &mdash;</span>
       <span class="rp-end-date">{{ rp.end_date | date: "%F" }}</span>
     </div>
-    <span class="rp-canon"><a href="{{base}}/index.html#{{rp.canon}}">{{ rp.canon }}</a></span>
+    <span class="arc-title"><a href="{{base}}/index.html#{{rp.canon}}">{{ rp.canon }}</a></span>
   </div>
   {% for t in rp.rp_tags %}
     <a href="{{ base }}{{ site.rp_tag_dir }}/{{ t.dir }}" class="rp-tag {{t.classes}}">{{ t.name }}</a>
