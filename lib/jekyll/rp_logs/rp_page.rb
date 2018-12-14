@@ -281,9 +281,11 @@ module Jekyll
           self[:stats].stats["aveword"] = self[:stats].stats["characters"].to_f / self[:stats].stats["wordcount"] - 1
           for t in self[:rp_tags]
             if t.stats
-              if t.stats['lines'] > 0
-                t.stats["aveline"] = t.stats["wordcount"].to_f / t.stats["lines"]
-                t.stats["aveword"] = t.stats["characters"].to_f / t.stats["wordcount"] - 1
+              if t.stats['lines']
+                if t.stats['lines'] > 0
+                  t.stats["aveline"] = t.stats["wordcount"].to_f / t.stats["lines"]
+                  t.stats["aveword"] = t.stats["characters"].to_f / t.stats["wordcount"] - 1
+                end
               end
             end
           end
