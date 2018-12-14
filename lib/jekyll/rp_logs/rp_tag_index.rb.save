@@ -20,9 +20,6 @@ module Jekyll
         data["count"] = data["pages"].length
         data["implies"] = site.config["tag_implications"][tag.to_s]
         Jekyll.logger.warn(tag.tag_type)
-        Jekyll.logger.warn(tag_char_require_implication)
-        Jekyll.logger.warn(tag.tag_type == "character" && tag_char_require_implication )
-        Jekyll.logger.warn(data["implies"])
         if data["implies"]
           data["implies"].map! {|t| tags.keys.find{|k|k.to_s == t} ||
             if /^char:/.match(t)
@@ -31,7 +28,7 @@ module Jekyll
               t.downcase
             end
           }
-        elsif tag.tag_type == "character" && tag_char_require_implication
+        elsif tag.tag_type == :character && tag_char_require_implication
           Jekyll.logger.warn("#{tag} has no implications set, and character tags are set to require implications.")
         end
         data["implied_by"] = site.config["tag_implied_by"][tag.to_s]
@@ -70,6 +67,92 @@ module Jekyll
             if page.stats['lines'] > 0
               page.stats["aveline"] = page.stats["wordcount"].to_f / page.stats["lines"]
               page.stats["aveword"] = page.stats["characters"].to_f / page.stats["wordcount"] - 1
+            end
+          end
+        end
+        Jekyll.# Again largely inspired by 
+http://brizzled.clapper.org/blog/2010/12/20/some-jekyll-hacks/logger.info "#{tags.size} 
+tag pages generated."
+      end require "yaml" def page_stats(tags)
+        tag_stats = tags.each_with_object(Hash.new()){|(tag, pages),tag_stats | module 
+Jekyll tag = tag.clone
+  module RpLogs tag.clear_stats!
+    class TagIndex < Jekyll::Page pages.each{|page|
+      def initialize(site, base, dir, tag, pages, tags) index = 
+page.data["rp_tags"].find_index(tag)
+        @site = site if index
+        @base = base tag.update_stats! page.data["rp_tags"][index].stats
+        @dir = dir end
+        @name = "index.html" }
+          tag_stats.merge!({tag => pages})
+        process(@name) }
+        # Get tag_index filename return tag_stats
+        tag_index = (site.config["rp_tag_index_layout"] || "tag_index") + ".html" end
+        read_yaml(File.join(base, "_layouts"), tag_index) # Returns a hash of tags => 
+[pages with tag]
+        tag_char_require_implication = site.config["char_require_implication"] private def 
+rps_by_tag(site)
+        data["tag"] = tag # Set which tag this index is for tag_ref = Hash.new { |hash, 
+key| hash[key] = Set.new }
+        data["description"] = tag_config(site.config)["tag_descriptions"][tag.to_s] 
+site.collections[RpLogGenerator.rp_key].docs.each do |page|
+          page.data["rp_tags"].each { |tag| tag_ref[tag] << page }
+        # Sort tagged RPs by their start date end
+        data["pages"] = pages.sort_by { |p| p.data["start_date"] } return tag_ref
+        data["count"] = data["pages"].length end
+    end
+        data["implies"] = site.config["tag_implications"][tag.to_s] end end
+        if data["implies"]
+          data["implies"].map! {|t| tags.keys.find{|k|k.to_s == t} ||
+            if /^char:/.match(t)
+              t
+            else
+              t.downcase
+            end
+          }
+        elsif tag.tag_type == :character && tag_char_require_implication
+          Jekyll.logger.warn("#{tag} has no implications set, and character tags are set 
+to require implications.")
+        end
+        data["implied_by"] = site.config["tag_implied_by"][tag.to_s]
+        if data["implied_by"]; then data["implied_by"].map! {|t| tags.keys.find{|k| k.to_s 
+== t} || t} end
+        data["aliased_by"] = site.config["tag_aliased_by"][tag.to_s]
+        tag_title_prefix = site.config["rp_tag_title_prefix"] || "Tag: "
+        data["title"] = "#{tag_title_prefix}#{tag.name}"
+      end
+      # TODO(xiagu): Make this not be defined here and in rp_page (DRY)
+      private def tag_config(config)
+        return config unless config["source"] && config["tag_file"]
+        tag_filename = File.join(config["source"], config["tag_file"])
+        return config unless File.exist?(tag_filename)
+        YAML.load_file(File.join(tag_filename))
+      end
+    end
+    class TagIndexGenerator < Jekyll::Generator
+      safe true
+      # Needs to run after RpLogGenerator
+      priority :low
+      def initialize(config)
+        config["rp_tag_index"] ||= true
+        config["rp_tag_dir"] ||= "/tags"
+      end
+      def generate(site)
+        return unless site.config["rp_tag_index"]
+        dir = site.config["rp_tag_dir"]
+        tags = rps_by_tag(site)
+        tags = page_stats(tags)
+        tags.each_pair do |tag, pages|
+          site.pages << TagIndex.new(site, site.source, File.join(dir, tag.dir), tag, 
+pages,tags)
+        end
+        for page in site.pages
+          page.try(:stats) rescue bad = nil
+          unless bad == nil
+            if page.stats['lines'] > 0
+              page.stats["aveline"] = page.stats["wordcount"].to_f / page.stats["lines"]
+              page.stats["aveword"] = page.stats["characters"].to_f / 
+page.stats["wordcount"] - 1
             end
           end
         end

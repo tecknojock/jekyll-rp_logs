@@ -6,6 +6,7 @@ tag_implications:
   # These are just examples, feel free to delete them!
   apple: [fruit]
   lorem ipsum: [dolor, sit amet]
+  char:Alice: [dolor]
 
 # Tag aliases function just like implications, except the original tag is
 # removed. So they effectively convert one tag into another tag. Or tags.
