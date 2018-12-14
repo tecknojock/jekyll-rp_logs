@@ -19,10 +19,6 @@ module Jekyll
         data["pages"] = pages.sort_by { |p| p.data["start_date"] }
         data["count"] = data["pages"].length
         data["implies"] = site.config["tag_implications"][tag.to_s]
-        Jekyll.logger.warn(tag.tag_type)
-        Jekyll.logger.warn(tag_char_require_implication)
-        Jekyll.logger.warn(tag.tag_type == "character" && tag_char_require_implication )
-        Jekyll.logger.warn(data["implies"])
         if data["implies"]
           data["implies"].map! {|t| tags.keys.find{|k|k.to_s == t} ||
             if /^char:/.match(t)
