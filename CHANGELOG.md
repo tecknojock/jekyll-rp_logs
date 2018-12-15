@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.8.2] - 2018-12-15
 ## Added
-- Character tags without implications can be set to warn, for people who want to set species or other information on all characters. ([#41])
+- Character tags without implications can be set to warn, for people who want to set species or other information on all characters. This is done by adding char_requre_implications: true to your config file.([#41])
 
 ## [0.8.1] - 2018-06-04
 ## Notes
