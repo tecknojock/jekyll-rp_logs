@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.2] - 2018-12-15
+## Added
+- Character tags without implications can be set to warn, for people who want to set species or other information on all characters. ([#41])
+
 ## [0.8.1] - 2018-06-04
 ## Notes
 - Fixed it so that Canons not in the list trigger an error. ([#38])
@@ -194,3 +198,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [#15]: https://github.com/tecknojock/jekyll-rp_logs/issues/15
 [#33]: https://github.com/tecknojock/jekyll-rp_logs/issues/33
 [#38]: https://github.com/tecknojock/jekyll-rp_logs/issues/38
+[#41]: https://github.com/tecknojock/jekyll-rp_logs/issues/41
