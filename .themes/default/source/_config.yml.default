@@ -44,7 +44,9 @@ canon_file: _canon.yml
 # such as windows.
 char_tag_format: none
 
-char_require_implication: true
+# When set to true, character tags without implications are printed as warnings to the console.
+# Useful if you want to say, ensure that all characters imply a species.
+char_require_implication: false
 
 # The max number of seconds between two mergeable lines. Lines further apart
 # in time than this will not be merged.
